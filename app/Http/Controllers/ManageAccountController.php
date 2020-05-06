@@ -47,6 +47,29 @@ class ManageAccountController extends MyBaseController
         return view('ManageAccount.Modals.EditAccount', $data);
     }
 
+
+    /**
+     * Show the account modal
+     *
+     * @param  Request  $request
+     * @return mixed
+     */
+    public function showCustomerEditAccount(Request $request)
+    {
+        $data = [
+            'account'                    => Account::find(Auth::user()->account_id),
+            'timezones'                  => Timezone::pluck('location', 'id'),
+            'currencies'                 => Currency::pluck('title', 'id'),
+            'payment_gateways'           => PaymentGateway::getAllWithDefaultSet(),
+            'default_payment_gateway_id' => PaymentGateway::getDefaultPaymentGatewayId(),
+            'account_payment_gateways'   => AccountPaymentGateway::scope()->get(),
+            'version_info'               => $this->getVersionInfo(),
+        ];
+
+        return view('ManageAccount.Modals.EditCustomerAccount', $data);
+    }
+
+
     public function getVersionInfo()
     {
         $installedVersion = null;

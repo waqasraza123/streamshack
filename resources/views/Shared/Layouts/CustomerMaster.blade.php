@@ -62,9 +62,6 @@
                         <a data-href="{{route('showCustomerEditAccount')}}" data-modal-id="EditUser"
                            class="loadModal editUserModal" href="javascript:void(0);"><span class="icon ico-user"></span>@lang("Top.my_profile")</a>
                     </li>
-                    <li class="divider"></li>
-                    <li><a data-href="{{route('showCustomerEditAccount')}}" data-modal-id="EditCustomerAccount" class="loadModal"
-                           href="javascript:void(0);"><span class="icon ico-cog"></span>@lang("Top.account_settings")</a></li>
 
 
                     <li class="divider"></li>

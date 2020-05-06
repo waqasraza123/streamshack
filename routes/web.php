@@ -218,7 +218,7 @@ Route::group(
         });
 
         Route::get('/edit-account',
-            [ManageAccountController::class, 'showEditAccount']
+            [ManageAccountController::class, 'showCustomerEditAccount']
         )->name('showCustomerEditAccount');
 
     });
