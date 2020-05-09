@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Organiser;
 use File;
 use Image;
@@ -120,5 +121,27 @@ class OrganiserCustomizeController extends MyBaseController
             'status'  => 'success',
             'message' => trans("Controllers.organiser_design_successfully_updated"),
         ]);
+    }
+
+
+    public function createStreamPage($id){
+        $event = Event::whereId($id)->first();
+
+//        $client = new \GuzzleHttp\Client();
+//        $response = $client->request('GET', 'https://api.github.com/repos/guzzle/guzzle');
+//
+//        echo $response->getStatusCode(); // 200
+//        echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
+//        echo $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
+//
+//        // Send an asynchronous request.
+//        $request = new \GuzzleHttp\Psr7\Request('GET', 'http://httpbin.org');
+//        $promise = $client->sendAsync($request)->then(function ($response) {
+//            echo 'I completed! ' . $response->getBody();
+//        });
+//
+//        $promise->wait();
+
+        return  view('Shared.event-stream-page')->withEventId($id)->withEvent($event);
     }
 }

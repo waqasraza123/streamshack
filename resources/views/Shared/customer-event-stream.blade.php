@@ -34,34 +34,12 @@
 
 @section('content')
 
+
     <div class="row">
-
         <div class="col-md-8">
-            <table class="table table-condensed">
-                <thead>
-                <th>Event Tittle</th>
-                <th>Location</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Download Ticket</th>
-                </thead>
-                <tbody>
-                @foreach($attendees as $customer)
-                    <tr>
-                        <td>{{$customer->event->title}}</td>
-                        <td>{{$customer->event->location}}</td>
-                        <td>{{$customer->event->description}}</td>
-                        <td>{{$customer->event->start_date}}</td>
-                        <td>{{$customer->event->end_date}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showOrderTickets', ['order_reference' => \App\Models\Attendee::whereOrderId($customer->order_id)->first()->order->order_reference]).'?download=1'}}">Download</a></td>
-                        <td><a class="btn btn-primary" href="{{route('customer.stream', ['id' => $customer->event->id])}}">Enter Stream</a></td>
-                    </tr>
+        <h3>Show Stream Data Below</h3>
 
-                @endforeach
-                </tbody>
-            </table>
-
+            {!! $stream ? $stream->data : 'Organiser has not added any stream yet.' !!}
 
         </div>
     </div>

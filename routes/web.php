@@ -211,10 +211,14 @@ Route::group(
      *
      */
     Route::group(['middleware' => 'auth'], function(){
-        Route::group(['customer' => 'prefix'], function(){
+        Route::group(['prefix' => 'customer'], function(){
             Route::get('/dashboard',
                 [CustomerController::class, 'showTicketsBought']
             )->name('showTicketsBought');
+
+
+            Route::get('events/{id}/stream', 'StreamController@customerStreamPage')->name('customer.stream');
+
         });
 
         Route::get('/edit-account',
@@ -302,6 +306,9 @@ Route::group(
             Route::post('{organiser_id}/page_design',
                 [OrganiserCustomizeController::class, 'postEditOrganiserPageDesign']
             )->name('postEditOrganiserPageDesign');
+
+
+            Route::get('event/{id}/stream/page', 'OrganiserCustomizeController@createStreamPage')->name('create-stream-page');
         });
 
         /*
@@ -684,4 +691,8 @@ Route::get("/email", function() {
         $message->from(('btistaa@gmail.com'), config("Hello"));
         $message->to('waqasraza123@gmail.com');
     });
+});
+
+Route::get('guzzle', function(){
+
 });

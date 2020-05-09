@@ -19,6 +19,7 @@ use App\Models\ReservedTickets;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Order as OrderService;
+use App\Stream;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -608,6 +609,13 @@ class EventCheckoutController extends Controller
              * register the user
              */
             $newUserId = $this->registerUserDurinPayment($request_data);
+
+            /**
+             * create the stream page
+             */
+            Stream::createOrUpdate([
+                'event_id' => $ticket_order['event_id'],
+            ]);
 
             /*
              * Create the order
