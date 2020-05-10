@@ -309,6 +309,8 @@ Route::group(
 
 
             Route::get('event/{id}/stream/page', 'OrganiserCustomizeController@createStreamPage')->name('create-stream-page');
+            Route::get('stream/settings', 'StreamController@settings')->name('stream.settings');
+            Route::post('stream/settings', 'StreamController@postSettings')->name('store.stream.settings');
         });
 
         /*
