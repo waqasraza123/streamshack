@@ -15,6 +15,7 @@ class StreamSettings extends Model
     'live_transcoding',
     'region',
     'event_id',
+    'stream_channel_id'
     ];
 
     public $table = 'stream_settings';

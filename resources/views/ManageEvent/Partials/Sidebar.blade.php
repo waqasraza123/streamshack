@@ -42,7 +42,7 @@
                 </a>
             </li>
 
-            <li class="{{ Request::is('*stream*') ? 'active' : '' }}">
+            <li class="">
                 <a href="{{route('stream.settings', ['id' => $event->id])}}">
                     <span class="figure"><i class="ico-cog"></i></span>
                     <span class="text">Stream Settings</span>

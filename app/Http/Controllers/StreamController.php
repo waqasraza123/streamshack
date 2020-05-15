@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Stream;
 use App\StreamSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class StreamController extends Controller
 {
@@ -15,10 +16,31 @@ class StreamController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function customerStreamPage($id){
-        $stream = Stream::whereEventId($id)->first();
+
+        $event = Event::whereId($id)->first();
+
+        $client = new \GuzzleHttp\Client();
+        $channelId = StreamSettings::whereEventId($id)->first();
+
+        if(!$channelId){
+            return view('Shared.customer-event-stream')->withStreamError('No Stream Available')->withStreamId(null);
+        }
+
+        $channelId = $channelId->stream_channel_id;
+
+        $apiKey = Config::get('dacast.api_key');
+        $baseUrl = Config::get('dacast.base_url');
 
 
-        return view('Shared.customer-event-stream', compact('stream'));
+        $response = $client->request('GET', $baseUrl.'channel/'.$channelId.'/embed/javascript?apikey='.$apiKey.'&_format=JSON');
+
+        $embedCode = $response->getBody();
+        $streamId = (explode("\u0022", $embedCode));
+
+        $streamId = $streamId[1];
+
+
+        return view('Shared.customer-event-stream')->withEventId($id)->withEvent($event)->withStreamId($streamId);
     }
 
     /**
@@ -44,13 +66,14 @@ class StreamController extends Controller
     public function postSettings($data, $eventId){
         StreamSettings::updateOrCreate([
             'event_id' => $eventId,
-            'publishing_point_type' => $data['publishing_point_type'],
-            'publishing_point_primary' => $data['publishing_point_primary'],
-            'publishing_point_backup' => $data['publishing_point_backup'],
-            'stream_name' => $data['stream_name'],
-            'login' => $data['login'],
-            'password' => $data['password'],
-            'live_transcoding' => $data['live_transcoding'],
+            'publishing_point_type' => $data['config']['publishing_point_type'],
+            'publishing_point_primary' => $data['config']['publishing_point_primary'],
+            'publishing_point_backup' => $data['config']['publishing_point_backup'],
+            'stream_name' => $data['config']['stream_name'],
+            'login' => $data['config']['login'],
+            'password' => $data['config']['password'],
+            'live_transcoding' => $data['config']['live_transcoding'],
+            'stream_channel_id' => $data['id']
         ]);
 
         return redirect()->back();

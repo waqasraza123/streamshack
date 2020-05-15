@@ -13,7 +13,6 @@
 @section('page_title')
 <i class="ico-home2"></i>
 @lang("basic.event_dashboard")
-<a href="{{route('create-stream-page', ['id' => $event->id])}}" style="margin-left:50px" class="btn btn-success">Stream Page</a>
 @endsection
 
 @section('menu')

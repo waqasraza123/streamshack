@@ -36,11 +36,12 @@
 
 
     <div class="row">
-        <div class="col-md-8">
-        <h3>Show Stream Data Below</h3>
-
-            {!! $stream ? $stream->data : 'Organiser has not added any stream yet.' !!}
-
+        <div class="col-md-12 col-md-offset-1">
+            @if(isset($streamError))
+                <h4>{{$streamError}}</h4>
+            @else
+                <script id="{{$streamId}}" width="512" height="288" src="//player.dacast.com/js/player.js"  class="dacast-video"></script>
+            @endif
         </div>
     </div>
 @stop

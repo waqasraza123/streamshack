@@ -3,13 +3,13 @@
 
         <ul id="nav" class="topmenu">
             <li class="{{ Request::is('*dashboard*') ? 'active' : '' }}">
-                <a href="">
+                <a href="{{route('showTicketsBought')}}">
                     <span class="figure"><i class="ico-home2"></i></span>
                     <span class="text">@lang("Organiser.dashboard")</span>
                 </a>
             </li>
             <li class="{{ Request::is('*events*') ? 'active' : '' }}">
-                <a href="">
+                <a href="{{route('showTicketsBought')}}">
                     <span class="figure"><i class="ico-calendar"></i></span>
                     <span class="text">My Events</span>
                 </a>

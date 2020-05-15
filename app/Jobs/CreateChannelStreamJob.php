@@ -48,7 +48,6 @@ class CreateChannelStreamJob implements ShouldQueue
                 ]
             ]);
         $data = json_decode($response->getBody(), true);
-        $data = ($data['config']);
 
         (new StreamController())->postSettings($data, $event->id);
 
