@@ -12,10 +12,12 @@ use App\Models\EventStats;
 class EventDashboardController extends MyBaseController
 {
     /**
-     * Show the event dashboard
      *
-     * @param bool|false $event_id
-     * @return \Illuminate\View\View
+     * show the event dashboard
+     *
+     * @param bool $event_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function showDashboard($event_id = false)
     {
@@ -84,7 +86,7 @@ class EventDashboardController extends MyBaseController
         $data = [
             'event'      => $event,
             'chartData'  => json_encode($result),
-            'ticketData' => json_encode($tickets_data),
+            'ticketData' => json_encode($tickets_data)
         ];
 
         return view('ManageEvent.Dashboard', $data);

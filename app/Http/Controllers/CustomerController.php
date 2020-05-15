@@ -18,4 +18,5 @@ class CustomerController extends Controller
 
         return view('Customers.customer-dashboard', compact('attendees'));
     }
+
 }

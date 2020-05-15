@@ -41,6 +41,14 @@
                     <span class="text">@lang("basic.promote")</span>
                 </a>
             </li>
+
+            <li class="{{ Request::is('*stream*') ? 'active' : '' }}">
+                <a href="{{route('stream.settings', ['id' => $event->id])}}">
+                    <span class="figure"><i class="ico-cog"></i></span>
+                    <span class="text">Stream Settings</span>
+                </a>
+            </li>
+
             <li class="{{ Request::is('*customize*') ? 'active' : '' }}">
                 <a href="{{route('showEventCustomize', array('event_id' => $event->id))}}">
                     <span class="figure"><i class="ico-cog"></i></span>

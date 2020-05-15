@@ -14,7 +14,7 @@ class StreamSettings extends Model
     'password',
     'live_transcoding',
     'region',
-    'organisor_id',
+    'event_id',
     ];
 
     public $table = 'stream_settings';

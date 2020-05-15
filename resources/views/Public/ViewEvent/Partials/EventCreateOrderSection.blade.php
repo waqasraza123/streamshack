@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-8 col-md-pull-4">
             <div class="event_order_form">
-                {!! Form::open(['url' => route('postValidateOrder', ['event_id' => $event->id ]), 'class' => 'ajax payment-form']) !!}
+                {!! Form::open(['url' => route('postValidateOrder', ['event_id' => $event->id ]), 'class' => 'payment-form']) !!}
 
                 {!! Form::hidden('event_id', $event->id) !!}
 
@@ -240,7 +240,11 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" name="merchant_id" value="10017504">
+                <input type="hidden" name="merchant_key" value="x3jz5b6f1qlxr">
+                <input type="hidden" name="return_url" value="https://google.com">
+                <input type="hidden" name="cancel_url" value="https://google.com">
+                <input type="hidden" name="notify_url" value="https://google.com">
                 @if($event->pre_order_display_message)
                 <div class="well well-small">
                     {!! nl2br(e($event->pre_order_display_message)) !!}

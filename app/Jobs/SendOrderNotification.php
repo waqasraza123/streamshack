@@ -27,7 +27,7 @@ class SendOrderNotification extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     * @param $orderMailer
      * @return void
      */
     public function handle(OrderMailer $orderMailer)

@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\OrderCompletedEvent;
+use App\Jobs\CreateChannelStream;
+use App\Jobs\CreateChannelStreamJob;
 use App\Jobs\GenerateTicket;
 use App\Jobs\SendOrderNotification;
 use App\Jobs\SendOrderTickets;
@@ -46,5 +48,6 @@ class OrderCompletedListener implements ShouldQueue
         Log::info("failing before this.");
 
         $this->dispatch(new SendOrderNotification($event->order));
+
     }
 }

@@ -308,8 +308,9 @@ Route::group(
             )->name('postEditOrganiserPageDesign');
 
 
-            Route::get('event/{id}/stream/page', 'OrganiserCustomizeController@createStreamPage')->name('create-stream-page');
-            Route::get('stream/settings', 'StreamController@settings')->name('stream.settings');
+            Route::get('event/{id}/stream/page', 'StreamController@createStreamPage')->name('create-stream-page');
+            Route::post('event/{id}/stream/page', 'OrganiserCustomizeController@fetchLiveStream')->name('fetch-stream');
+            Route::get('event/{id}/stream/settings', 'StreamController@settings')->name('stream.settings');
             Route::post('stream/settings', 'StreamController@postSettings')->name('store.stream.settings');
         });
 
@@ -695,6 +696,26 @@ Route::get("/email", function() {
     });
 });
 
-Route::get('guzzle', function(){
+Route::any('return_url', function(\Illuminate\Http\Request $request){
+    return $_POST;
+});
 
+Route::any('cancel_url', function(\Illuminate\Http\Request $request, $custom_int1){
+    return $request->all();
+});
+
+Route::post('notify_url', function(){
+
+    header( 'HTTP/1.0 200 OK' );
+    flush();
+
+    // Posted variables from ITN
+    $pfData = $_POST;
+
+    // Strip any slashes in data
+    foreach( $pfData as $key => $val )
+    {
+        $pfData[$key] = stripslashes( $val );
+        \Illuminate\Support\Facades\Log::info($pfData[$key]);
+    }
 });

@@ -36,6 +36,8 @@ function getAjaxFormConfig(form) {
                 showMessage(data.message);
             }
 
+            alert("here");
+
             switch (data.status) {
                 case 'success':
                     if (data.redirectUrl) {
@@ -116,7 +118,6 @@ $(function() {
     }
 
     $('#stripe-sca-payment-form').on('submit', function (e) {
-
         e.preventDefault();
         e.stopImmediatePropagation();
 

@@ -283,8 +283,6 @@ class EventCheckoutController extends Controller
     public function postValidateOrder(Request $request, $event_id)
     {
 
-        //dd($request->all());
-
         //If there's no session kill the request and redirect back to the event homepage.
         if (!session()->get('ticket_order_' . $event_id)) {
             return response()->json([
@@ -303,7 +301,6 @@ class EventCheckoutController extends Controller
         session()->remove('ticket_order_' . $event_id . '.request_data');
         session()->push('ticket_order_' . $event_id . '.request_data', $request_data);
 
-        $event = Event::findOrFail($event_id);
         $order = new Order();
         $ticket_order = session()->get('ticket_order_' . $event_id);
 
@@ -342,16 +339,82 @@ class EventCheckoutController extends Controller
             ]);
         }
 
-        return response()->json([
-            'status'      => 'success',
-            'redirectUrl' => route('showEventPayment', [
-                    'event_id'    => $event_id,
-                    'is_embedded' => $this->is_embedded
-                ])
-        ]);
+
+        // Construct variables
+        $cartTotal = 122.00;// This amount needs to be sourced from your application
+        $data = array(
+            // Merchant details
+            'merchant_id' => '10017504',
+            'merchant_key' => 'x3jz5b6f1qlxr',
+            'return_url' => 'http://9e1c2441.ngrok.io/return_url',
+            'cancel_url' => 'http://9e1c2441.ngrok.io/cancel_url',
+            'notify_url' => 'http://9e1c2441.ngrok.io/notify_url',
+            // Buyer details
+            'name_first' => 'First Name',
+            'name_last'  => 'Last Name',
+            'email_address'=> 'valid@email_address.com',
+            // Transaction details
+            'm_payment_id' => '8542', //Unique payment ID to pass through to notify_url
+            // Amount needs to be in ZAR
+            // If multicurrency system its conversion has to be done before building this array
+            'amount' => number_format( sprintf( "%.2f", $cartTotal ), 2, '.', '' ),
+            'item_name' => 'Item Name',
+            'item_description' => 'Item Description',
+            'custom_int1' => $event_id, //custom integer to be passed through
+            'custom_str1' => 'custom string is passed along with transaction to notify_url page',
+
+        );
+
+
+        // Create parameter string
+        $pfOutput = '';
+        foreach( $data as $key => $val )
+        {
+            if(!empty($val))
+            {
+                $pfOutput .= $key .'='. urlencode( trim( $val ) ) .'&';
+            }
+        }
+        // Remove last ampersand
+        $getString = substr( $pfOutput, 0, -1 );
+        //Uncomment the next line and add a passphrase if there is one set on the account
+        $passPhrase = 'P_ssw0rd123456';
+        if( isset( $passPhrase ) )
+        {
+            $getString .= '&passphrase='. urlencode( trim( $passPhrase ) );
+        }
+        $data['signature'] = md5( $getString );
+
+
+        //dd($data['signature']);
+
+        $testingMode = true;
+        $pfHost = $testingMode ? 'sandbox.payfast.co.za' : 'www.payfast.co.za';
+        $htmlForm = '<form action="https://'.$pfHost.'/eng/process" method="post">';
+        foreach($data as $name=> $value)
+        {
+            $htmlForm .= '<input name="'.$name.'" type="hidden" value="'.$value.'" />';
+        }
+        $htmlForm .= '<input type="submit" value="Pay Now" /></form>';
+        echo $htmlForm;
+
+//        return response()->json([
+//            'status'      => 'success',
+//            'redirectUrl' => route('showEventPayment', [
+//                'event_id'    => $event_id,
+//                'is_embedded' => $this->is_embedded
+//            ])
+//        ]);
 
     }
 
+
+
+    /**
+     * @param Request $request
+     * @param $event_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showEventPayment(Request $request, $event_id)
     {
         $order_session = session()->get('ticket_order_' . $event_id);
@@ -527,7 +590,7 @@ class EventCheckoutController extends Controller
 
 
 
-    public function registerUserDurinPayment($request){
+    public function registerUserDuringPayment($request){
 
 
         $is_attendize = Utils::isAttendize();
@@ -591,6 +654,7 @@ class EventCheckoutController extends Controller
      */
     public function completeOrder($event_id, $return_json = true)
     {
+        dd("ever coming here?");
         DB::beginTransaction();
 
         try {
@@ -608,12 +672,12 @@ class EventCheckoutController extends Controller
             /**
              * register the user
              */
-            $newUserId = $this->registerUserDurinPayment($request_data);
+            $newUserId = $this->registerUserDuringPayment($request_data);
 
             /**
              * create the stream page
              */
-            Stream::createOrUpdate([
+            Stream::updateOrCreate([
                 'event_id' => $ticket_order['event_id'],
             ]);
 

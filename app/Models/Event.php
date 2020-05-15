@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\EventCreatedEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,6 +17,17 @@ use URL;
 class Event extends MyBaseModel
 {
     use SoftDeletes;
+
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => EventCreatedEvent::class,
+    ];
+
 
     protected $dates = ['start_date', 'end_date', 'on_sale_date'];
     /**
