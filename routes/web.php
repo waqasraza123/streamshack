@@ -719,3 +719,7 @@ Route::post('notify_url', function(){
         \Illuminate\Support\Facades\Log::info($pfData[$key]);
     }
 });
+
+Route::get('test', function(){
+    return config('app.url');
+});

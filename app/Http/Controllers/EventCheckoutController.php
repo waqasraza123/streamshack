@@ -346,9 +346,9 @@ class EventCheckoutController extends Controller
             // Merchant details
             'merchant_id' => '10017504',
             'merchant_key' => 'x3jz5b6f1qlxr',
-            'return_url' => 'http://9e1c2441.ngrok.io/return_url',
-            'cancel_url' => 'http://9e1c2441.ngrok.io/cancel_url',
-            'notify_url' => 'http://9e1c2441.ngrok.io/notify_url',
+            'return_url' => url('return_url'),
+            'cancel_url' => url('cancel_url'),
+            'notify_url' => url('notify_url'),
             // Buyer details
             'name_first' => 'First Name',
             'name_last'  => 'Last Name',
