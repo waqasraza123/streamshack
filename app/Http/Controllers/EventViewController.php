@@ -66,7 +66,10 @@ class EventViewController extends Controller
             }
         }
 
-        return view('Public.ViewEvent.EventPage', $data);
+        $stream = (new StreamController())->customerStreamPage($event_id);
+        //dd($stream);
+
+        return view('Public.ViewEvent.EventPage', $data)->with('stream', $stream);
     }
 
     /**

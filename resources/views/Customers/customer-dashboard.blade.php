@@ -55,7 +55,6 @@
                         <td>{{$customer->event->start_date}}</td>
                         <td>{{$customer->event->end_date}}</td>
                         <td><a class="btn btn-primary" href="{{route('showOrderTickets', ['order_reference' => \App\Models\Attendee::whereOrderId($customer->order_id)->first()->order->order_reference]).'?download=1'}}">Download</a></td>
-                        <td><a class="btn btn-primary" href="{{route('customer.stream', ['id' => $customer->event->id])}}">Enter Stream</a></td>
                     </tr>
 
                 @endforeach

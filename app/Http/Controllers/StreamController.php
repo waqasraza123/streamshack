@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Stream;
 use App\StreamSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 class StreamController extends Controller
@@ -17,13 +18,14 @@ class StreamController extends Controller
      */
     public function customerStreamPage($id){
 
-        $event = Event::whereId($id)->first();
-
         $client = new \GuzzleHttp\Client();
         $channelId = StreamSettings::whereEventId($id)->first();
 
         if(!$channelId){
-            return view('Shared.customer-event-stream')->withStreamError('No Stream Available')->withStreamId(null);
+            return [
+                'success' => false,
+                'data' => "No Stream Available"
+            ];
         }
 
         $channelId = $channelId->stream_channel_id;
@@ -40,7 +42,13 @@ class StreamController extends Controller
         $streamId = $streamId[1];
 
 
-        return view('Shared.customer-event-stream')->withEventId($id)->withEvent($event)->withStreamId($streamId);
+        return Auth::check() ? [
+            'success' => false,
+            'data' => "Buy Ticket or if already bought, Login to enter Stream."
+        ] : [
+            'success' => true,
+            'data' => $streamId
+        ];
     }
 
     /**

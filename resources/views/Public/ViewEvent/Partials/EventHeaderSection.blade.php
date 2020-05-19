@@ -47,14 +47,18 @@
 
             <div class="event_buttons">
                 <div class="row">
-                    <div class="col-md-4 col-sm-4">
+                    <div class="col-md-3 col-sm-3">
                         <a class="btn btn-event-link btn-lg" href="{{{$event->event_url}}}#tickets">@lang("Public_ViewEvent.TICKETS")</a>
                     </div>
-                    <div class="col-md-4 col-sm-4">
+                    <div class="col-md-3 col-sm-3">
                         <a class="btn btn-event-link btn-lg" href="{{{$event->event_url}}}#details">@lang("Public_ViewEvent.DETAILS")</a>
                     </div>
-                    <div class="col-md-4 col-sm-4">
+                    <div class="col-md-3 col-sm-3">
                         <a class="btn btn-event-link btn-lg" href="{{{$event->event_url}}}#location">@lang("Public_ViewEvent.LOCATION")</a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3">
+                        <a class="btn btn-event-link btn-lg" href="{{{$event->event_url}}}#event_stream">Enter Stream</a>
                     </div>
                 </div>
             </div>

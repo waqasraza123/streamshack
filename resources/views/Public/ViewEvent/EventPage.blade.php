@@ -10,6 +10,7 @@
     @include('Public.ViewEvent.Partials.EventDescriptionSection')
     @include('Public.ViewEvent.Partials.EventShareSection')
     @include('Public.ViewEvent.Partials.EventMapSection')
+    @include('Public.ViewEvent.Partials.EventStreamSection')
     @include('Public.ViewEvent.Partials.EventOrganiserSection')
     @include('Public.ViewEvent.Partials.EventFooterSection')
 @stop
