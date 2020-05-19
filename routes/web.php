@@ -697,7 +697,18 @@ Route::get("/email", function() {
 });
 
 Route::any('return_url', function(\Illuminate\Http\Request $request){
-    return $_POST;
+    header( 'HTTP/1.0 200 OK' );
+    flush();
+
+    // Posted variables from ITN
+    $pfData = $_POST;
+
+    // Strip any slashes in data
+    foreach( $pfData as $key => $val )
+    {
+        $pfData[$key] = stripslashes( $val );
+        \Illuminate\Support\Facades\Log::info($key . ' => ' . $pfData[$key]);
+    }
 });
 
 Route::any('cancel_url', function(\Illuminate\Http\Request $request, $custom_int1){
@@ -716,10 +727,18 @@ Route::post('notify_url', function(){
     foreach( $pfData as $key => $val )
     {
         $pfData[$key] = stripslashes( $val );
-        \Illuminate\Support\Facades\Log::info($pfData[$key]);
+        \Illuminate\Support\Facades\Log::info($key . ' => ' . $pfData[$key]);
     }
 });
 
 Route::get('test', function(){
-    return config('app.url');
+    $se = \Illuminate\Support\Facades\DB::table('session_temp')->whereId(21)->first();
+    $b='request_data';
+    $c = 'ticket_holder_first_name';
+    $d=0;
+    $e = 2;
+    dd(json_decode($se->data)->$b->$c[$d]->$e);
+    foreach (json_decode($se->data)->tickets as $a){
+        dd($a->$b->$id);
+    }
 });

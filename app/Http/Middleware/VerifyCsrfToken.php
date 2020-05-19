@@ -20,5 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'install/*',
+        'notify_url',
+        '*/checkout/create'
     ];
 }

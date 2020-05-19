@@ -37,6 +37,7 @@ class Order extends MyBaseModel
         'account_id',
         'event_id',
         'taxamt',
+        'purchaser_id'
     ];
 
     /**

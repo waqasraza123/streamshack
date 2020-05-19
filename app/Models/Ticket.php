@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Superbalist\Money\Money;
 
-class Ticket extends MyBaseModel
+class
+Ticket extends MyBaseModel
 {
     use SoftDeletes;
 

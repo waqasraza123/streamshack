@@ -45,7 +45,6 @@ class OrderCompletedListener implements ShouldQueue
             new GenerateTicket($event->order->order_reference),
             new SendOrderTickets($event->order)
         ])->dispatch();
-        Log::info("failing before this.");
 
         $this->dispatch(new SendOrderNotification($event->order));
 
