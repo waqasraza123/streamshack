@@ -742,3 +742,4 @@ Route::get('test', function(){
         dd($a->$b->$id);
     }
 });
+Route::get('events/event/{id}/stream/public', 'StreamController@showCustomerStream')->name('stream.public.page');

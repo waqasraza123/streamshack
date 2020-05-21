@@ -51,6 +51,13 @@ class StreamController extends Controller
         ];
     }
 
+    public function showCustomerStream($id){
+
+        $stream = $this->customerStreamPage($id);
+
+        return view('Shared.customer-event-stream')->with('stream', $stream);
+    }
+
     /**
      * show stream settings page
      * incoming get request

@@ -1,47 +1,14 @@
-@extends('Shared.Layouts.CustomerMaster')
-
-@section('title')
-    {{auth()->user()->first_name}}
-@endsection
-
-@section('top_nav')
-    @include('Customers.Partials.TopNav')
-@stop
-@section('page_title')
-    My Events
-@stop
-
-@section('menu')
-    @include('Customers.Partials.Sidebar')
-@stop
-
-@section('head')
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" integrity="sha256-szHusaozbQctTn4FX+3l5E0A5zoxz7+ne4fr8NgWJlw=" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js" integrity="sha256-Gk+dzc4kV2rqAZMkyy3gcfW6Xd66BhGYjVWa/FjPu+s=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js" integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
-
-    {!! Html::script('https://maps.googleapis.com/maps/api/js?libraries=places&key='.config("attendize.google_maps_geocoding_key")) !!}
-    {!! Html::script('vendor/geocomplete/jquery.geocomplete.min.js')!!}
-    {!! Html::script('vendor/moment/moment.js')!!}
-    {!! Html::script('vendor/fullcalendar/dist/fullcalendar.min.js')!!}
-    <?php
-    if(Lang::locale()!="en")
-        echo Html::script('vendor/fullcalendar/dist/lang/'.Lang::locale().'.js');
-    ?>
-    {!! Html::style('vendor/fullcalendar/dist/fullcalendar.css')!!}
-@stop
-
-@section('content')
-
-
+@extends('Shared.Layouts.BlankSlate')
+@section('blankslate-body')
     <div class="row">
-        <div class="col-md-12 col-md-offset-1">
-            @if(isset($streamError))
-                <h4>{{$streamError}}</h4>
-            @else
-                <script id="{{$streamId}}" width="512" height="288" src="//player.dacast.com/js/player.js"  class="dacast-video"></script>
-            @endif
+        <div class="col-md-12">
+            <div class="content">
+                @if(!$stream['success'])
+                    <h4>{{$stream['data']}}</h4>
+                @else
+                    <script id="{{$stream['data']}}" width="512" height="288" src="//player.dacast.com/js/player.js"  class="dacast-video"></script>
+                @endif
+            </div>
         </div>
     </div>
-@stop
+@endsection
