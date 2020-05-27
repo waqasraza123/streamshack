@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Organiser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -15,8 +16,9 @@ class CustomerController extends Controller
         $user = auth()->user();
 
         $attendees = Attendee::whereAttendeeId($user->id)->get();
-
-        return view('Customers.customer-dashboard', compact('attendees'));
+        $paymentStatus = DB::table('session_temp')->where('user_id', auth()->user()->id)->first()->payment_status;
+        session()->put('message', 'Your payment has been ' . $paymentStatus);
+        return view('Customers.customer-dashboard', compact('attendees'))->with('message', $paymentStatus);
     }
 
 }

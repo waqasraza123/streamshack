@@ -66,4 +66,5 @@
 
         </div>
     </div>
+    <input type="hidden" id="payment-status" value="{{ session()->get('payment_status') }}">
 @stop

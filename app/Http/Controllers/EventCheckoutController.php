@@ -481,6 +481,13 @@ class EventCheckoutController extends Controller
 
         $payFastData = $this->receivePayFastData();
         Log::info($payFastData);
+
+        //put payment status in session
+        DB::table('session_temp')->where('signature', $payFastData['custom_str1'])->update([
+            'payment_status' => $payFastData['payment_status'],
+            'user_id' => User::whereEmail($payFastData['email_address'])->first()->id
+        ]);
+
         $request_data = json_decode(DB::table('session_temp')->where('signature', $payFastData['custom_str1'])->first()->data);
 
         session()->push('ticket_order_' . $event_id . '.request_data', $request_data);

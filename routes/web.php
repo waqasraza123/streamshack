@@ -733,13 +733,8 @@ Route::post('notify_url', function(){
 
 Route::get('test', function(){
     $se = \Illuminate\Support\Facades\DB::table('session_temp')->whereId(21)->first();
-    $b='request_data';
-    $c = 'ticket_holder_first_name';
-    $d=0;
-    $e = 2;
-    dd(json_decode($se->data)->$b->$c[$d]->$e);
-    foreach (json_decode($se->data)->tickets as $a){
-        dd($a->$b->$id);
-    }
+    $se->user_id = auth()->id();
+    $se->update();
+    dd($se);
 });
 Route::get('events/event/{id}/stream/public', 'StreamController@showCustomerStream')->name('stream.public.page');
