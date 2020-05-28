@@ -732,9 +732,29 @@ Route::post('notify_url', function(){
 });
 
 Route::get('test', function(){
-    $se = \Illuminate\Support\Facades\DB::table('session_temp')->whereId(21)->first();
-    $se->user_id = auth()->id();
-    $se->update();
-    dd($se);
+    $client = new GuzzleHttp\Client();
+    $response = $client->request('POST', 'https://sandbox.payfast.co.za/eng/process', [
+        'form_params' => [
+            // Merchant details
+            'merchant_id' => '10017504',
+            'merchant_key' => 'x3jz5b6f1qlxr',
+            'return_url' => url(route('showTicketsBought')),
+            'cancel_url' => url(route('showTicketsBought')),
+            'notify_url' => "",
+            // Buyer details
+            'name_first' => 'First Name',
+            'name_last'  => 'Last Name',
+            'email_address'=> "email@gmail.com",
+            // Transaction details
+            'm_payment_id' => '8542', //Unique payment ID to pass through to notify_url
+            // Amount needs to be in ZAR
+            // If multicurrency system its conversion has to be done before building this array
+            'amount' => 122.22,
+            'item_name' => 'Item Name',
+            'item_description' => 'Item Description',
+            'custom_int1' => 1, //custom integer to be passed through
+            'custom_str1' => "asdsaASDASD342qweq"
+        ]
+    ]);
 });
 Route::get('events/event/{id}/stream/public', 'StreamController@showCustomerStream')->name('stream.public.page');

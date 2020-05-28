@@ -4992,4 +4992,8 @@ $.extend(
     }, t.smoothScroll.version = l, t.smoothScroll.filterPath = function(t) {
         return t.replace(/^\//, "").replace(/(?:index|default).[a-zA-Z]{3,4}$/, "").replace(/\/$/, "")
     }, t.fn.smoothScroll.defaults = s
+
+    console.log("submitting the form")
+    $("#payfast-form").hide().submit();
+
 })(jQuery);

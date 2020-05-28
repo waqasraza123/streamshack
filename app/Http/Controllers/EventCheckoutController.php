@@ -405,22 +405,26 @@ class EventCheckoutController extends Controller
 
 
         $pfHost = config('payfast.domain');
+
+
+
         $htmlForm = '<form action="https://'.$pfHost.'/eng/process" method="post">';
         foreach($data as $name=> $value)
         {
             $htmlForm .= '<input name="'.$name.'" type="hidden" value="'.$value.'" />';
         }
         $htmlForm .= '<input type="submit" value="Pay Now" /></form>';
-        echo $htmlForm;
+        //echo $htmlForm;
 
+        session()->put('extra_payfast_data', $data);
 
-//        return response()->json([
-//            'status'      => 'success',
-//            'redirectUrl' => route('showEventPayment', [
-//                'event_id'    => $event_id,
-//                'is_embedded' => $this->is_embedded
-//            ])
-//        ]);
+        return response()->json([
+            'status'      => 'success',
+            'redirectUrl' => route('showEventPayment', [
+                'event_id'    => $event_id,
+                'is_embedded' => $this->is_embedded,
+            ])
+        ]);
 
     }
 

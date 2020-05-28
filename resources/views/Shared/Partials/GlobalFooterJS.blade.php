@@ -1,10 +1,12 @@
 @if(session()->get('message'))
-    {{\Illuminate\Support\Facades\Log::info('show the following message to user')}}
-    {{\Illuminate\Support\Facades\Log::info(\Session::get('message'))}}
     <script>showMessage('{{\Session::get('message')}}');</script>
 @endif
-{{\Illuminate\Support\Facades\Log::info('show the following message to user')}}
-{{\Illuminate\Support\Facades\Log::info(\Session::get('message'))}}
+
+@php
+
+    session()->put('message', '')
+
+@endphp
 
 @if(config('attendize.google_analytics_id'))
 <script>
